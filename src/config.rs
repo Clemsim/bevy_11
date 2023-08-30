@@ -1,1 +1,1 @@
-pub const SPEED: f32 = 8.;
+pub const SPEED : f32 = 5.0;
