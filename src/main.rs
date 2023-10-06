@@ -74,17 +74,17 @@ fn setup(
 
 
 
-    let mut wave = Mesh::from(shape::Plane{size: 1.0, subdivisions: 5});
-
+    let mut wave = Mesh::from(shape::Plane{size: 1.0, subdivisions: 50});
+    let wawe2 = wave.clone();
     if let Some(VertexAttributeValues::Float32x3(positions)) =
         wave.attribute(Mesh::ATTRIBUTE_POSITION)
     {
-        println!("positions: {:?}", positions);
+        println!("positions: {:?}", positions[0]);
         let positionlet: Vec<[f32; 3]> = positions
             .iter()
-            .map(|[r, g, b]| [(1. - *r) / 2., (1. - *g) / 2., (1. - *b) / 2.])
+            .map(|[x, y, z]| [*x,1. + *y,z.sin()])
             .collect();
-
+        println!("positionlet: {:?}", positionlet[0]);
         wave.insert_attribute(Mesh::ATTRIBUTE_POSITION, positionlet);
     }
     commands.spawn(PbrBundle{
@@ -93,5 +93,10 @@ fn setup(
         transform: Transform::from_xyz(0.0, 0.0, 5.0),
         ..default()}
     );
-
+    commands.spawn(PbrBundle{
+        mesh: meshes.add(wawe2),
+        material: materials.add(Color::rgb(0.3, 0.5, 0.3).into()),
+        transform: Transform::from_xyz(0.0, 0.0, 5.0),
+        ..default()}
+    );
 }
